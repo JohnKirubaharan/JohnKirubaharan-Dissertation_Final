@@ -4,7 +4,7 @@ from pathlib import Path
 
 BASE = Path(".")
 DATA = BASE / "data.json"
-URL = "http://127.0.0.1:5000/predict"
+URL = "http://ec2-54-75-27-19.eu-west-1.compute.amazonaws.com:5000/predict"
 
 if not DATA.exists():
     raise FileNotFoundError("Missing data.json")
