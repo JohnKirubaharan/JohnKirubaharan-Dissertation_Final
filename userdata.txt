@@ -1,0 +1,73 @@
+Setting up environment
+----------------------
+setup ec2 - minimum t3.small
+connected to ec2
+install git
+	sudo yum install git -y
+install pip
+	sudo yum install python3-pip -y
+
+install jenkins
+	sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+	sudo yum upgrade -y
+	sudo yum install java-17-amazon-corretto -y
+	sudo yum install jenkins -y
+
+Start & Enable Jenkins
+	sudo systemctl enable jenkins
+	sudo systemctl start jenkins
+	sudo systemctl status jenkins
+
+
+# Install Docker
+sudo yum install -y docker
+
+# Start Docker service
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# Add a Docker group and add the current user to it
+sudo groupadd docker
+sudo usermod -aG docker ec2-user
+
+# Install Docker Compose
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+
+
+Allow inbound traffic on port 8080 and 5000
+	# In AWS Console > EC2 > Security Groups:
+	# Edit Inbound Rules → Add Rule:
+	# Type: Custom TCP | Port: 8080 | Source: 0.0.0.0/0 (or restrict to your IP)
+	# Type: Custom TCP | Port: 5000 | Source: 0.0.0.0/0 (or restrict to your IP)
+	
+Check the file for jenkins first time password
+	sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+Go to the link and setup jenkins
+	http://ec2-108-130-102-230.eu-west-1.compute.amazonaws.com:8080/
+
+Created User
+	username : admin
+	password : admin123
+
+Install Plugins
+	In Jenkins UI:
+	Go to Manage Jenkins > Nodes > Configure Monitors > change 1GiB to 0.9GiB on both fields
+	Go to Manage Jenkins > Plugins
+	Go to Available tab → Search "Blue Ocean"
+	Install:
+		1. Blue Ocean
+		2. Pipeline
+		3. GitHub Pipeline
+		4. AWS Credentials
+		5. Nodejs
+
+Setup nodejs
+	Go to Manage Jenkins > tools > Add Nodejs
+	Give same name given there in Jenkinsfile like : 
+		tools {
+			nodejs 'nodejs24'
+	    	}
+	
