@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/adarshvs6665/john-anomaly-detection-pipeline.git'
+                git branch: 'main', url: 'https://github.com/JohnKirubaharan/JohnKirubaharan-Dissertation_Final.git'
             }
         }
         stage('Build & Deploy') {
